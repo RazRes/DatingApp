@@ -22,7 +22,7 @@ namespace API.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
-                    DateBirth = table.Column<DateOnly>(type: "TEXT", nullable: false),
+                    DateOfBirth = table.Column<DateOnly>(type: "TEXT", nullable: true),
                     ImageUrl = table.Column<string>(type: "TEXT", nullable: true),
                     DisplayName = table.Column<string>(type: "TEXT", nullable: false),
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),

@@ -6,7 +6,7 @@ public class SeedUserDto
 {
  public required string Id { get; set; } = null!;
  public required string Email { get; set; }
-    public DateOnly DateBirth { get; set; }
+    public DateOnly DateOfBirth { get; set; }
     public string? ImageUrl { get; set; }
 
     public required string DisplayName { get; set; }
