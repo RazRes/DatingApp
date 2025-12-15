@@ -1,5 +1,6 @@
 using System.Text;
 using API.Data;
+using API.Helpers;
 using API.Interfaces;
 using API.Middleware;
 using API.Services;
@@ -31,7 +32,9 @@ builder.Services.AddCors(options =>
 
 //tipically used for services injection
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IPhotoService, PhotoService>();
 builder.Services.AddScoped<IMemberRepository, MemberRepository>();
+builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     var tokenKey = builder.Configuration["TokenKey"] ?? throw new Exception("Token key not found - Program.cs");
