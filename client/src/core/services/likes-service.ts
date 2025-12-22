@@ -1,0 +1,38 @@
+import { PaginationResult } from './../../types/pagination';
+import { inject, Injectable, signal } from '@angular/core';
+import { environment } from '../../environments/environment';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Member } from '../../types/member';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class LikesService {
+
+  private baseUrl = environment.apiUrl;
+  private http = inject(HttpClient);
+  likeIds = signal<string[]>([]);
+
+  toggleLike(targetMemberId: string) {
+    return this.http.post(`${this.baseUrl}likes/${targetMemberId}`, {});
+  }
+
+  getLikes(predicate: string, pageNumber: number, pageSize: number) {
+    let params = new HttpParams();
+    params = params.set('pageNumber', pageNumber.toString());
+    params = params.set('pageSize', pageSize.toString());
+    params = params.set('predicate', predicate.toString());
+    return this.http.get<PaginationResult<Member>>(this.baseUrl + 'likes', {params});
+  }
+
+  getLikeIds() {
+    return this.http.get<string[]>(this.baseUrl + 'likes/list').subscribe({
+      next: ids => this.likeIds.set(ids)
+    })
+  }
+
+  clearLikeIds() {
+    this.likeIds.set([]);
+  }
+}
+
