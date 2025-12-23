@@ -1,15 +1,16 @@
 using System;
 using API.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace API.Data;
 
-public class AppDbContext(DbContextOptions options) : DbContext(options)
+public class AppDbContext(DbContextOptions options) : IdentityDbContext<AppUser>(options)
 {
-    //this will be the table name: Users
-    public DbSet<AppUser> Users { get; set; }
+    //this will be the table name
     public DbSet<Member> Members { get; set; }
     public DbSet<Photo> Photos { get; set; }
 
@@ -19,6 +20,13 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<IdentityRole>()
+        .HasData(
+            new IdentityRole { Id = "member-id", Name = "Member", NormalizedName = "MEMBER", ConcurrencyStamp = "member-stamp" },
+            new IdentityRole { Id = "moderator-id", Name = "Moderator", NormalizedName = "MODERATOR", ConcurrencyStamp = "moderator-stamp" },
+            new IdentityRole { Id = "admin-id", Name = "Admin", NormalizedName = "ADMIN", ConcurrencyStamp = "admin-stamp" }
+        );
 
 
         modelBuilder.Entity<Message>()
@@ -59,7 +67,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
                 {
                     property.SetValueConverter(dateTimeConverter);
                 }
-                else if(property.ClrType == typeof(DateTime?))
+                else if (property.ClrType == typeof(DateTime?))
                 {
                     property.SetValueConverter(nullableDateTimeConverter);
                 }

@@ -29,7 +29,11 @@
         "@schematics/angular:pipe": {
           "skipTests": true,
           "path": "src/core/pipes"
-        }
+        },
+          "@schematics/angular:directive": {
+            "skipTests": true,
+            "path": "src/shared/directive"
+          }
       },
       "root": "",
       "sourceRoot": "src",
