@@ -25,7 +25,7 @@ public class MemberRepository(AppDbContext context) : IMemberRepository
     {
 
         var query = context.Members.AsQueryable();
-        // query = query.Where(x => x.Id != memberParams.CurrentMemberId);
+        query = query.Where(x => x.Id != memberParams.CurrentMemberId);
 
         if(memberParams.Gender != null)
         {
@@ -55,10 +55,6 @@ public class MemberRepository(AppDbContext context) : IMemberRepository
         .ToListAsync();
     }
 
-    public async Task<bool> SaveAllAsync()
-    {
-        return await context.SaveChangesAsync() > 0;
-    }
 
     public void Update(Member member)
     {

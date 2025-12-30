@@ -26,9 +26,12 @@ public class LikesRepository(AppDbContext context) : ILikesRepository
         .ToListAsync();
     }
 
-    public Task<MemberLike?> GetMemberLike(string sourceMemberId, string targetMemberId)
+    public async Task<MemberLike?> GetMemberLike(string sourceMemberId, string targetMemberId)
     {
-        throw new NotImplementedException();
+        return await context.Likes
+        .SingleOrDefaultAsync(x =>
+            x.SourceMemberId == sourceMemberId &&
+            x.TargetMemberId == targetMemberId);
     }
 
 
@@ -64,8 +67,5 @@ public class LikesRepository(AppDbContext context) : ILikesRepository
         throw new NotImplementedException();
     }
 
-    public async Task<bool> SaveAllChanges()
-    {
-        return await context.SaveChangesAsync() > 0;
-    }
+   
 }

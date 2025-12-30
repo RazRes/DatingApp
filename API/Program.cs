@@ -37,10 +37,8 @@ builder.Services.AddCors(options =>
 //tipically used for services injection
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IPhotoService, PhotoService>();
-builder.Services.AddScoped<IMemberRepository, MemberRepository>();
-builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 builder.Services.AddScoped<UserActivity>();
-builder.Services.AddScoped<ILikesRepository, LikesRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
 builder.Services.AddSignalR();
